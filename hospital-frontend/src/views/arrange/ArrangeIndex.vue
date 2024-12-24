@@ -13,7 +13,6 @@
                     <li v-for="monthDay in monthDays" :key="monthDay">
                       <el-button
                           key="date-button"
-
                           type="primary"
                           plain
                           style="margin: 6px"

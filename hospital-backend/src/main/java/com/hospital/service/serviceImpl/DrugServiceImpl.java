@@ -1,6 +1,7 @@
 package com.hospital.service.serviceImpl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -11,6 +12,10 @@ import com.hospital.mapper.DrugMapper;
 import com.hospital.service.DrugService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 药物 服务层
@@ -101,6 +106,7 @@ public class DrugServiceImpl extends ServiceImpl<DrugMapper, Drug> implements Dr
             return Boolean.FALSE;
         }
 
+
         //保存药物
         return this.save(drug);
     }
@@ -125,5 +131,59 @@ public class DrugServiceImpl extends ServiceImpl<DrugMapper, Drug> implements Dr
     @Override
     public Boolean modifyDrug(Drug drug) {
         return this.updateById(drug);
+    }
+
+    /**
+     * 查询库存不足药物
+     *
+     * @param pageNum  分页页面
+     * @param pageSize 分页大小
+     * @return 库存不足药物列表
+     */
+    @Override
+    public DrugPageVo findLowDrug(Integer pageNum, Integer pageSize) {
+        //分页-创建分页对象
+        Page<Drug> drugePage = new Page<>(pageNum, pageSize);
+
+        // 执行分页查询
+        IPage<Drug> drugIPage = drugMapper.selectPage(drugePage, new QueryWrapper<Drug>().lt("dr_number", 7));
+
+        if (drugIPage == null){
+            return null;
+        }
+        // 创建 DrugPageVo 并填充分页信息
+        DrugPageVo drugPageVo = new DrugPageVo();
+        drugPageVo.populatePage(drugIPage);
+
+        return drugPageVo;
+
+    }
+
+    /**
+     * 查询过期药物
+     *
+     * @param pageNum  分页页面
+     * @param pageSize 分页大小
+     * @return 要过期药物列表
+     */
+    @Override
+    public DrugPageVo findExpiredDrug(Integer pageNum, Integer pageSize) {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime DaysAgo = now.plusDays(20);
+
+        //分页-创建分页对象
+        Page<Drug> drugePage = new Page<>(pageNum, pageSize);
+
+        // 执行分页查询
+        IPage<Drug> drugIPage = drugMapper.selectPage(drugePage, new QueryWrapper<Drug>().le("dr_time", DaysAgo));
+
+        if (drugIPage == null){
+            return null;
+        }
+        // 创建 DrugPageVo 并填充分页信息
+        DrugPageVo drugPageVo = new DrugPageVo();
+        drugPageVo.populatePage(drugIPage);
+
+        return drugPageVo;
     }
 }

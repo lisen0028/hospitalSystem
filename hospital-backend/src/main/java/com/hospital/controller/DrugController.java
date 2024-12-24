@@ -111,4 +111,27 @@ public class DrugController {
 
         return R.ok("修改药物失败");
     }
+
+    /**
+     * 分页展示过期药物
+     */
+    @RequestMapping("findExpiredDrug")
+    public R<DrugPageVo> findExpiredDrug(
+            @RequestParam(value = "pageNumber") Integer pageNum,
+            @RequestParam(value = "size") Integer pageSize
+    ) {
+
+        return R.ok(drugService.findExpiredDrug(pageNum, pageSize));
+    }
+
+    /**
+     * 分页展示查询库存告急
+     */
+    @RequestMapping("findLowDrug")
+    public R<DrugPageVo> findLowDrug(
+            @RequestParam(value = "pageNumber") Integer pageNum,
+            @RequestParam(value = "size") Integer pageSize
+    ) {
+        return R.ok(drugService.findLowDrug(pageNum, pageSize));
+    }
 }

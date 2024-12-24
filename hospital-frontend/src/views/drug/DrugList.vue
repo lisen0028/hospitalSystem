@@ -22,17 +22,47 @@
                 <el-col :span="1"></el-col>
             </el-row>
 
-            <el-row type="flex">
-                <el-col :span="4">
-                    <br>
-                    <!--添加药物按钮-->
-                    <el-button type="success" size="small" @click="addFormVisible = true" style="font-size: 15px">
-                    <i class="iconfont icon-add-button" style="font-size: 15px;"></i>
-                        添加药物
-                    </el-button>
-                </el-col>
-            </el-row>
-            <!--表格-->
+          <el-row type="flex" justify="start" align="middle" style="gap: 10px;">
+            <el-col>
+              <!-- 添加药物按钮 -->
+              <el-button
+                  type="success"
+                  size="small"
+                  @click="addFormVisible = true"
+                  style="font-size: 15px"
+              >
+                <i class="iconfont icon-add-button" style="font-size: 15px;"></i>
+                添加药物
+              </el-button>
+              <el-button
+                  type="success"
+                  size="small"
+                  @click="findLowDrug"
+                  style="font-size: 15px"
+              >
+                库存告急
+              </el-button>
+              <el-button
+                  type="success"
+                  size="small"
+                  @click="findExpiredDrug"
+                  style="font-size: 15px"
+              >
+                即将过期
+              </el-button>
+              <el-button
+                  type="success"
+                  size="small"
+                  @click="requestDrugs"
+                  style="font-size: 15px"
+              >
+                所有药物
+              </el-button>
+            </el-col>
+
+          </el-row>
+
+          <!--表格-->
             <el-table :data="drugData" size="small" stripe style="width: 100%" border>
                 <el-table-column label="编号" prop="drId"/>
                 <el-table-column label="名称" prop="drName"/>
@@ -40,6 +70,7 @@
                 <el-table-column label="单位" prop="drUnit"/>
                 <el-table-column label="单价" prop="drPrice"/>
                 <el-table-column label="出版商"prop="drPublisher"/>
+                <el-table-column label="过期日期"prop="drTime"/>
                 <el-table-column label="操作" width="200" fixed="right">
                     <template slot-scope="scope">
                         <el-button
@@ -103,6 +134,15 @@
                 >
                     <el-input v-model="addForm.drPublisher"></el-input>
                 </el-form-item>
+              <el-form-item label="过期日期" prop="drTime" label-width="80px">
+                <!--                <el-input v-model="modifyForm.drTime"></el-input>-->
+                <el-date-picker
+                    v-model="addForm.drTime"
+                    type="date"
+                    value-format="yyyy-MM-dd"
+                    placeholder="选择日期">
+                </el-date-picker>
+              </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button size="mini" @click="addFormVisible = false" style="font-size: 18px;">
@@ -154,6 +194,15 @@
                 >
                     <el-input v-model="modifyForm.drPublisher"></el-input>
                 </el-form-item>
+              <el-form-item label="过期日期" prop="drTime" label-width="80px">
+<!--                <el-input v-model="modifyForm.drTime"></el-input>-->
+                <el-date-picker
+                    v-model="modifyForm.drTime"
+                    type="date"
+                    value-format="yyyy-MM-dd"
+                    placeholder="选择日期">
+                </el-date-picker>
+              </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button size="mini" @click="modifyFormVisible = false"  style="font-size: 18px;">
@@ -216,6 +265,9 @@ export default {
                         trigger: "blur",
                     },
                 ],
+                drTime: [
+                  { required: true, message: "请输入过期日期", trigger: "blur" },
+                ],
             },
             modifyFormVisible: false,
             modifyForm: {},
@@ -235,6 +287,7 @@ export default {
                                 drPrice: this.modifyForm.drPrice,
                                 drUnit: this.modifyForm.drUnit,
                                 drPublisher: this.modifyForm.drPublisher,
+                                drTime: this.modifyForm.drTime,
                             },
                         })
                         .then((res) => {
@@ -310,6 +363,7 @@ export default {
                                 drPrice: this.addForm.drPrice,
                                 drUnit: this.addForm.drUnit,
                                 drPublisher: this.addForm.drPublisher,
+                                drTime: this.addForm.drTime,
                             },
                         })
                         .then((res) => {
@@ -351,9 +405,42 @@ export default {
                     this.total = res.data.data.total;
                 });
         },
+      //过期警告
+      findExpiredDrug(){
+        request
+            .get("drug/findExpiredDrug", {
+              params: {
+                pageNumber: this.pageNumber,
+                size: this.size,
+              },
+            })
+            .then((res) => {
+              this.drugData = res.data.data.drugs;
+              this.total = res.data.data.total;
+            });
+      },
+
+      //库存警告
+
+      findLowDrug(){
+        request
+        request
+            .get("drug/findLowDrug", {
+              params: {
+                pageNumber: this.pageNumber,
+                size: this.size,
+              },
+            })
+            .then((res) => {
+              this.drugData = res.data.data.drugs;
+              this.total = res.data.data.total;
+            });
+      },
     },
     created() {
+
         this.requestDrugs();
+
     },
 };
 </script>

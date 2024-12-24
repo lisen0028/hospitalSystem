@@ -62,4 +62,9 @@ public interface DrugService {
      */
     Boolean modifyDrug(Drug drug);
 
+
+
+    DrugPageVo findLowDrug(Integer pageNum, Integer pageSize);
+
+    DrugPageVo findExpiredDrug(Integer pageNum, Integer pageSize);
 }

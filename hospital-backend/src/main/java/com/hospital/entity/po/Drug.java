@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.sql.Date;
+
 /**
  * 药物
  *
@@ -51,4 +53,11 @@ public class Drug {
      */
     @JsonProperty("drPublisher")
     private String drPublisher;
+
+    /**
+     * 过期时间
+     */
+    @JsonProperty("drTime")
+    private Date drTime;
+
 }

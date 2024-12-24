@@ -29,7 +29,6 @@ public class DrugPageVo extends BedPageVo {
         super.populatePage(iPage);
         this.drugs = iPage.getRecords();
     }
-
 }
 
   
