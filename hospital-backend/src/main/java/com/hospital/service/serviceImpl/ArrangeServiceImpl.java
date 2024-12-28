@@ -2,12 +2,15 @@ package com.hospital.service.serviceImpl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hospital.entity.po.Arrange;
+import com.hospital.entity.vo.user.ArrangeDoctorVo;
 import com.hospital.mapper.ArrangeMapper;
 import com.hospital.service.ArrangeService;
+import com.hospital.utils.PdfUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -74,4 +77,11 @@ public class ArrangeServiceImpl extends ServiceImpl<ArrangeMapper, Arrange> impl
         return this.removeById(arId);
     }
 
+    @Override
+    public void findArrangeDoctor(HttpServletResponse response) throws Exception {
+
+        List<ArrangeDoctorVo> ArrangeDoctors = arrangeMapper.ArrangeDoctor();
+        //导出pdf
+        PdfUtil.exportDoctorSchedule(response, ArrangeDoctors);
+    }
 }

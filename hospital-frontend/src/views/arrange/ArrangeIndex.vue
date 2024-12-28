@@ -106,6 +106,17 @@
                     ></el-button>
                   </el-input>
                 </el-col>
+<!--                导出排班表-->
+                <el-col :span="30" justify="end">
+                  <el-button
+                      type="success"
+                      size="small"
+                      @click="seeReport01"
+                      style="font-size: 15px"
+                  >
+                    导出排班表
+                  </el-button>
+                </el-col>
               </el-row>
             </el-row>
 
@@ -296,8 +307,31 @@ export default {
                 this.total = res.data.data.total;
               });
         },
+      //导出排班表
+      seeReport01() {
+        request.get("arrange/exportArrangePdf", {
+          responseType: "blob",
+        })
+            .then(response => {
+              if (!response){
+                return this.$message.error("数据请求失败");
+              }
+              const blob = new Blob([response], { type: "application/pdf" });
+              const url = window.URL.createObjectURL(blob);
+              const a = document.createElement("a");
+              a.href = url;
+              a.download = `doctor_schedule_${new Date().getTime()}.pdf`; // 动态文件名
+              document.body.appendChild(a);
+              a.click();
+              a.remove();
+              window.URL.revokeObjectURL(url);
+            })
+            .catch(err => console.error("Error downloading PDF:", err));
+      }
+
     },
-    created() {
+
+  created() {
         //获取当天的后7天
         for (let i = 0; i < 25; i++) {
             this.nowDay(i);

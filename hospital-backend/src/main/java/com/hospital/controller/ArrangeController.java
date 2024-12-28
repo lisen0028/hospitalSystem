@@ -2,13 +2,19 @@ package com.hospital.controller;
 
 import com.hospital.common.R;
 import com.hospital.entity.po.Arrange;
+import com.hospital.entity.po.Orders;
+import com.hospital.entity.vo.user.ArrangeDoctorVo;
+import com.hospital.mapper.ArrangeMapper;
 import com.hospital.service.ArrangeService;
+import com.hospital.utils.PdfUtil;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.BooleanUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -67,6 +73,19 @@ public class ArrangeController {
         }
 
         return R.error("排班信息不存在");
+    }
+
+    /**
+     * 导出排班表
+     * @param response
+     * @throws Exception
+     */
+    @RequestMapping("/exportArrangePdf")
+    public void exportArrange(HttpServletResponse response) throws Exception {
+        if (response == null) {
+            throw new IllegalArgumentException("response为空");
+        }
+        arrangeService.findArrangeDoctor(response);
     }
 
 }

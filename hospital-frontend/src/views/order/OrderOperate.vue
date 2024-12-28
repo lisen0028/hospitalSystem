@@ -289,32 +289,32 @@ export default {
             var array = [];
             if (!this.isTimeAfterTarget("09:30") || !isToday) {
               array.push(
-                  "08:30-09:30  " + "   余号 " + "1"
+                  "08:30-09:30  " + "   余号 ：" + "有"
               );
             }
             if (!this.isTimeAfterTarget("10:30") || !isToday) {
               array.push(
-                  "09:30-10:30  " + "   余号 " + "1"
+                  "09:30-10:30  " + "   余号 ：" + "有"
               );
             }
             if (!this.isTimeAfterTarget("11:30") || !isToday) {
               array.push(
-                  "10:30-11:30  " + "   余号 " + "1"
+                  "10:30-11:30  " + "   余号 ：" + "有"
               );
             }
             if (!this.isTimeAfterTarget("15:30") || !isToday) {
               array.push(
-                  "14:30-15:30  " + "   余号 " + "1"
+                  "14:30-15:30  " + "   余号 ：" + "有"
               );
             }
             if (!this.isTimeAfterTarget("16:30") || !isToday) {
               array.push(
-                  "15:30-16:30  " + "   余号 " + "1"
+                  "15:30-16:30  " + "   余号 ：" + "有"
               );
             }
             if (!this.isTimeAfterTarget("17:30") || !isToday) {
               array.push(
-                  "16:30-17:30  " + "   余号 " + "1"
+                  "16:30-17:30  " + "   余号 ：" + "有"
               );
             }
             this.times = array;

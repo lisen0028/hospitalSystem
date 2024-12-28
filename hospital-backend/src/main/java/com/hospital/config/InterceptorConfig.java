@@ -23,7 +23,9 @@ public class InterceptorConfig implements WebMvcConfigurer {
                 //登录
                 .excludePathPatterns("/**/login")
                 //病患注册
-                .excludePathPatterns("/**/addPatient");
+                .excludePathPatterns("/**/addPatient")
+                //排班表导出
+                .excludePathPatterns("/arrange/exportArrangePdf");
     }
 
 }

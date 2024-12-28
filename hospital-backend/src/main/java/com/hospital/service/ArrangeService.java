@@ -1,7 +1,9 @@
 package com.hospital.service;
 
 import com.hospital.entity.po.Arrange;
+import com.hospital.entity.vo.user.ArrangeDoctorVo;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -37,4 +39,11 @@ public interface ArrangeService {
      */
     Boolean deleteArrange(String arId);
 
+    /**
+     * 排班表
+     * @param response
+     * @throws Exception
+     */
+
+    void findArrangeDoctor(HttpServletResponse response) throws Exception;
 }

@@ -45,7 +45,6 @@ public class JwtInterceptor implements HandlerInterceptor {
         String json = new ObjectMapper().writeValueAsString(map);
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().println(json);
-
         return false;
     }
 }

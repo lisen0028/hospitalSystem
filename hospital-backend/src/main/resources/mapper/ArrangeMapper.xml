@@ -25,5 +25,22 @@
     <select id="findByTime" resultMap="arrangeDoctorMap">
         select * from doctor_user d,arrange a where d.d_id=a.d_id and a.ar_time=#{ar_time} and d.d_section=#{d_section}
     </select>
+    <select id="ArrangeDoctor" resultType="com.hospital.entity.vo.user.ArrangeDoctorVo">
+        SELECT
+            a.ar_time,
+            d.d_id ,
+            d.d_name ,
+            d.d_section
+        FROM
+            arrange a
+                JOIN
+            doctor_user d
+            ON
+                a.d_id = d.d_id
+        GROUP BY
+            a.ar_time, d.d_section, d.d_id, d.d_name
+        ORDER BY
+            a.ar_time ASC, d.d_section ASC;
+    </select>
 
 </mapper>

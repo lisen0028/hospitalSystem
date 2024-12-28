@@ -2,6 +2,7 @@ package com.hospital.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.hospital.entity.po.Arrange;
+import com.hospital.entity.vo.user.ArrangeDoctorVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -24,5 +25,7 @@ public interface ArrangeMapper extends BaseMapper<Arrange> {
      * @return 排班信息
      */
     List<Arrange> findByTime(@Param("ar_time") String arTime, @Param("d_section") String dSection);
+
+    List<ArrangeDoctorVo> ArrangeDoctor();
 
 }
